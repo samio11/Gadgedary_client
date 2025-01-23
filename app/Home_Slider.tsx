@@ -21,12 +21,12 @@ const Home_Slider = () => {
   };
 
   return (
-    <div className="w-full max-w-screen-xl h-[200px] md:h-[400px] mx-auto mt-2">
+    <div className="w-full max-w-screen-xl h-[200px] md:h-[600px] mx-auto mt-2">
       <Slider {...settings}>
-        <div className="h-full text-black flex items-center justify-center rounded-lg">
+        <div className="h-full text-black flex flex-col-reverse md:flex-row items-center justify-center rounded-lg">
           <div className="flex-1 h-full w-full flex justify-center items-center text-center">
             <div className="space-y-3">
-              <h3 className="text-3xl font-bold">
+              <h3 className="text-3xl md:text-xl font-bold">
                 Explore Cutting-Edge Technology
               </h3>
               <p className="text-sm italic">
