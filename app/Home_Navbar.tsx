@@ -47,27 +47,27 @@ const Home_Navbar = () => {
               title="Our product"
               className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
             >
-              Product
+              Home
             </a>
           </li>
           <li>
             <a
-              href="/"
+              href="/products"
               aria-label="Our product"
               title="Our product"
               className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
             >
-              Features
+              Products
             </a>
           </li>
           <li>
             <a
-              href="/"
+              href="/contact"
               aria-label="Product pricing"
               title="Product pricing"
               className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
             >
-              Pricing
+              Contact Us
             </a>
           </li>
           <li>
@@ -84,7 +84,7 @@ const Home_Navbar = () => {
         <ul className="flex items-center hidden space-x-8 lg:flex">
           <li>
             <a
-              href="/"
+              href="/login"
               className="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-black transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
               aria-label="login"
               title="login"
