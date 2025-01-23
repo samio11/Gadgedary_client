@@ -72,12 +72,12 @@ const Home_Navbar = () => {
           </li>
           <li>
             <a
-              href="/"
+              href="/rating"
               aria-label="About us"
               title="About us"
               className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
             >
-              About us
+              Rate Us
             </a>
           </li>
         </ul>
@@ -178,37 +178,37 @@ const Home_Navbar = () => {
                         title="Our product"
                         className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
                       >
-                        Product
+                        Home
                       </a>
                     </li>
                     <li>
                       <a
-                        href="/"
+                        href="/products"
                         aria-label="Our product"
                         title="Our product"
                         className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
                       >
-                        Features
+                        Products
                       </a>
                     </li>
                     <li>
                       <a
-                        href="/"
+                        href="/contact"
                         aria-label="Product pricing"
                         title="Product pricing"
                         className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
                       >
-                        Pricing
+                        Contact Us
                       </a>
                     </li>
                     <li>
                       <a
-                        href="/"
+                        href="/rating"
                         aria-label="About us"
                         title="About us"
                         className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
                       >
-                        About us
+                        Rate Us
                       </a>
                     </li>
                     <li>
