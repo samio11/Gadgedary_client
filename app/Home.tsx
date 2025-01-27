@@ -9,6 +9,7 @@ import Home_Apply_Cupon from "./Home_Apply_Cupon";
 import Home_Happy_Customers from "./Home_Happy_Customers";
 import Home_Faq from "./Home_Faq";
 import Footer from "./Footer";
+import Home_Offer_Section from "./Home_Offer_Section";
 
 const Home = () => {
   console.log("Rendering Shop by Category section...");
@@ -42,6 +43,17 @@ const Home = () => {
       <Home_Latest_Product></Home_Latest_Product>
       {/* Cupon */}
       <Home_Apply_Cupon></Home_Apply_Cupon>
+
+      {/* Offer Section */}
+      <div className="my-7 md:my-2 lg:my-7 text-center h-[70px] space-y-3">
+        <h2 className="text-3xl font-extrabold text-center text-gray-800 mb-2">
+          Top Offer
+        </h2>
+        <p className="text-sm italic text-gray-500 font-semibold">
+          These are our Offers on best quality product
+        </p>
+      </div>
+      <Home_Offer_Section></Home_Offer_Section>
 
       {/* Happy Customer */}
       <div className="my-7 md:my-2 lg:my-7 text-center h-[70px] space-y-3">

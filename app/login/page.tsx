@@ -1,23 +1,71 @@
 "use client";
+
 import React, { useState } from "react";
 import { FaGoogle } from "react-icons/fa";
-import Link from "next/link"; // Import Next.js Link component
+import Link from "next/link";
 import Lottie from "lottie-react";
+import Swal from "sweetalert2";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie"; // For handling cookies
 
 const LoginPage = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log("Email:", email);
-    console.log("Password:", password);
+
+    if (!email || !password) {
+      Swal.fire({
+        icon: "warning",
+        title: "Missing Fields",
+        text: "Please fill in all fields!",
+      });
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        "http://localhost:4000/customer/login",
+        { email, password },
+        { withCredentials: true } // Important for sending cookies
+      );
+
+      Swal.fire({
+        icon: "success",
+        title: "Login Successful",
+        text: "Redirecting to dashboard...",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+
+      // Store token in cookies (Optional)
+      Cookies.set("token", response.data.token, { expires: 1 }); // Expires in 1 day
+
+      setTimeout(() => {
+        router.push("/dashboard"); // Redirect to dashboard after login
+      }, 2000);
+    } catch (error: any) {
+      Swal.fire({
+        icon: "error",
+        title: "Login Failed",
+        text: error.response?.data?.message || "Something went wrong!",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleGoogle = () => {
-    // Handle Google login logic here
-    console.log("Google login clicked");
+    Swal.fire({
+      icon: "info",
+      title: "Google Login",
+      text: "Google login is under development.",
+    });
   };
 
   return (
@@ -26,8 +74,8 @@ const LoginPage = () => {
         {/* Left Part */}
         <div className="flex-1 flex justify-center items-center">
           <Lottie
-            className="h-[300px]md:h-[500px]"
-            animationData={require("../../public/l2.json")} // Use relative path to the public folder
+            className="h-[300px] md:h-[500px]"
+            animationData={require("../../public/l2.json")}
           />
         </div>
 
@@ -63,11 +111,15 @@ const LoginPage = () => {
                 </Link>
               </p>
               <div className="flex justify-center items-center">
-                <input
-                  className="btn btn-outline btn-wide"
+                <button
                   type="submit"
-                  value="Login"
-                />
+                  className={`btn btn-outline btn-wide ${
+                    loading ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+                  disabled={loading}
+                >
+                  {loading ? "Logging in..." : "Login"}
+                </button>
               </div>
               <p className="text-center text-xs">--OR--</p>
               <div className="flex justify-center items-center">

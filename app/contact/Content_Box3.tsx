@@ -4,7 +4,8 @@ import React, { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { FaPaperPlane } from "react-icons/fa"; // Import send icon
+import { FaPaperPlane } from "react-icons/fa";
+import emailjs from "@emailjs/browser"; // Import EmailJS
 
 // Custom marker icon
 const customIcon = new L.Icon({
@@ -29,7 +30,7 @@ const MyLocationMarker = () => {
       (position) => {
         const { latitude, longitude } = position.coords;
         setPosition([latitude, longitude]);
-        map.flyTo([latitude, longitude], 13); // Move map to user's location
+        map.flyTo([latitude, longitude], 13);
       },
       (error) => console.error("Error getting location:", error),
       { enableHighAccuracy: true }
@@ -46,13 +47,36 @@ const MyLocationMarker = () => {
 const Content_Box3 = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState<string | null>(null);
 
-  // Function to handle sending email
-  const handleSendEmail = () => {
-    const mailtoLink = `mailto:samiohasan6@gmail.com?subject=Contact%20Form%20Message&body=${encodeURIComponent(
-      `Email: ${email}\n\nMessage: ${message}`
-    )}`;
-    window.location.href = mailtoLink; // Open user's email client
+  // Function to handle sending email using EmailJS
+  const handleSendEmail = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const templateParams = {
+      user_email: email,
+      message: message,
+    };
+
+    try {
+      await emailjs.send(
+        "service_p2ifpic", // Replace with your EmailJS Service ID
+        "template_60vrd6s", // Replace with your EmailJS Template ID
+        templateParams,
+        "e0BkME0-a_SVd9ae6" // Replace with your EmailJS Public Key
+      );
+
+      setSuccess("Message sent successfully!");
+      setEmail("");
+      setMessage("");
+    } catch (error) {
+      console.error("Email sending error:", error);
+      setSuccess("Failed to send message. Try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -62,30 +86,54 @@ const Content_Box3 = () => {
         <h2 className="text-3xl font-bold text-gray-800 mb-2">Get in Touch</h2>
         <p className="text-gray-600 mb-4">We are always here to help you.</p>
 
-        {/* Email Input */}
-        <input
-          type="email"
-          placeholder="Your Email"
-          className="w-full p-2 mb-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <form onSubmit={handleSendEmail}>
+          {/* Email Input */}
+          <input
+            type="email"
+            placeholder="Your Email"
+            className="w-full p-2 mb-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
 
-        {/* Message Input */}
-        <textarea
-          placeholder="Your Message"
-          className="w-full p-2 mb-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-24 resize-none"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-        ></textarea>
+          {/* Message Input */}
+          <textarea
+            placeholder="Your Message"
+            className="w-full p-2 mb-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-24 resize-none"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            required
+          ></textarea>
 
-        {/* Send Button */}
-        <button
-          onClick={handleSendEmail}
-          className="w-full flex justify-center items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
-        >
-          <FaPaperPlane /> Send Message
-        </button>
+          {/* Send Button */}
+          <button
+            type="submit"
+            disabled={loading}
+            className={`w-full flex justify-center items-center gap-2 ${
+              loading ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"
+            } text-white px-4 py-2 rounded-md transition`}
+          >
+            {loading ? (
+              "Sending..."
+            ) : (
+              <>
+                <FaPaperPlane /> Send Message
+              </>
+            )}
+          </button>
+
+          {/* Success/Error Message */}
+          {success && (
+            <p
+              className={`mt-2 text-center ${
+                success.includes("success") ? "text-green-600" : "text-red-600"
+              }`}
+            >
+              {success}
+            </p>
+          )}
+        </form>
       </div>
 
       {/* Right Side - Scrollable Leaflet Map with User Location */}
@@ -93,14 +141,14 @@ const Content_Box3 = () => {
         <MapContainer
           center={[23.8103, 90.4125]} // Default center (Dhaka, Bangladesh)
           zoom={13}
-          scrollWheelZoom={true} // Allows zooming with the scroll wheel
+          scrollWheelZoom={true}
           className="w-full h-full"
         >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
-          <MyLocationMarker /> {/* Shows user's live location */}
+          <MyLocationMarker />
         </MapContainer>
       </div>
     </div>

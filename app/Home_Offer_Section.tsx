@@ -19,34 +19,27 @@ interface Product {
   };
 }
 
-const Home_Products = () => {
-  const [latestProducts, setLatestProducts] = useState<Product[]>([]);
+const Home_Offer_Section = () => {
+  const [topOffers, setTopOffers] = useState<Product[]>([]);
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchTopOffers = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/products");
-        const sortedProducts = response.data
-          .sort(
-            (a: Product, b: Product) =>
-              new Date(b.product_added_date).getTime() -
-              new Date(a.product_added_date).getTime()
-          )
-          .slice(0, 3);
-        setLatestProducts(sortedProducts);
+        const response = await axios.get(
+          "http://localhost:4000/products/top-offers"
+        );
+        setTopOffers(response.data);
       } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error("Error fetching top offers:", error);
       }
     };
-    fetchProducts();
+    fetchTopOffers();
   }, []);
-
-  console.log(latestProducts);
 
   return (
     <div className="mt-12 max-w-screen-xl mx-auto">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {latestProducts.map((product) => (
+        {topOffers.map((product) => (
           <div
             key={product.id}
             className="relative group bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
@@ -83,8 +76,8 @@ const Home_Products = () => {
                   </span>
                 ))}
               </div>
-              <button className="btn btn-outline btn-wide">
-                <FaShoppingCart /> Add to Cart
+              <button className="btn btn-outline btn-wide mt-4">
+                <FaShoppingCart className="mr-2" /> Add to Cart
               </button>
             </div>
           </div>
@@ -94,4 +87,4 @@ const Home_Products = () => {
   );
 };
 
-export default Home_Products;
+export default Home_Offer_Section;
