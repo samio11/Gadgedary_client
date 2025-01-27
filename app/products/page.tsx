@@ -5,6 +5,8 @@ import axios from "axios";
 import { FaShoppingCart, FaEye } from "react-icons/fa";
 import { Dialog } from "@headlessui/react";
 import Home_Navbar from "../Home_Navbar";
+import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
 
 interface Product {
   id: number;
@@ -29,6 +31,7 @@ const ProductsPage = () => {
   const [budgetRange, setBudgetRange] = useState({ min: 500, max: 1000 });
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
 
   // Fetch paginated products
   useEffect(() => {
@@ -75,6 +78,28 @@ const ProductsPage = () => {
     }));
   };
 
+  const handleCart = (product) => {
+    Swal.fire({
+      position: "top-end",
+      title: "Going To Cart",
+      showConfirmButton: false,
+      timer: 2000,
+      imageUrl:
+        "https://images.squarespace-cdn.com/content/v1/54bc6cffe4b0fee4b02bd3c5/1520533858653-EL1OZQBC1PR49D66FES8/Highway-5-animation-studio-sophy.gif", // Replace with the path to your custom icon
+      imageWidth: 200, // Optional: Set the width of the image
+      imageHeight: 200, // Optional: Set the height of the image
+      imageAlt: "Custom Icon", // Optional: Alt text for the image
+    });
+
+    // Store product data in localStorage
+    localStorage.setItem("selectedProduct", JSON.stringify(product));
+
+    // Navigate to /add_to_cart page
+    setTimeout(() => {
+      router.push("/add_to_cart");
+    }, 2000);
+  };
+
   return (
     <div className="p-6">
       <Home_Navbar></Home_Navbar>
@@ -106,7 +131,10 @@ const ProductsPage = () => {
                 >
                   <FaEye className="mr-2" /> Show Details
                 </button>
-                <button className="flex items-center px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">
+                <button
+                  onClick={() => handleCart(product)}
+                  className="flex items-center px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+                >
                   <FaShoppingCart className="mr-2" /> Add to Cart
                 </button>
               </div>
@@ -184,7 +212,10 @@ const ProductsPage = () => {
                 >
                   <FaEye className="mr-2" /> Show Details
                 </button>
-                <button className="flex items-center px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">
+                <button
+                  onClick={() => handleCart(product)}
+                  className="flex items-center px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+                >
                   <FaShoppingCart className="mr-2" /> Add to Cart
                 </button>
               </div>

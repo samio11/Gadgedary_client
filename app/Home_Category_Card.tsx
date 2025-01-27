@@ -7,7 +7,7 @@ import { IoMdTabletPortrait } from "react-icons/io";
 import axios from "axios";
 
 const categories = [
-  { name: "Phones", icon: <IoPhonePortraitOutline size={35} />, api: "Phones" },
+  { name: "Phones", icon: <IoPhonePortraitOutline size={35} />, api: "phone" },
   { name: "Headphones", icon: <FaHeadphones size={35} />, api: "headphone" },
   { name: "Laptops", icon: <IoMdLaptop size={35} />, api: "laptop" },
   { name: "Tablets", icon: <IoMdTabletPortrait size={35} />, api: "tablet" },

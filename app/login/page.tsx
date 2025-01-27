@@ -1,6 +1,5 @@
 "use client";
 
-import React, { useState } from "react";
 import { FaGoogle } from "react-icons/fa";
 import Link from "next/link";
 import Lottie from "lottie-react";
@@ -8,9 +7,12 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie"; // For handling cookies
+import { useAuth } from "../context/AuthContext";
+import { useState } from "react";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState<string>("");
+  const { setEmail } = useAuth(); // Use global auth context
+  const [email, setLocalEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
@@ -43,11 +45,12 @@ const LoginPage = () => {
         showConfirmButton: false,
       });
 
-      // Store token in cookies (Optional)
-      Cookies.set("token", response.data.token, { expires: 1 }); // Expires in 1 day
+      // Store email in global context and cookies
+      setEmail(email);
+      Cookies.set("email", email, { expires: 1 }); // Store in cookies
 
       setTimeout(() => {
-        router.push("/dashboard"); // Redirect to dashboard after login
+        router.push("/dashboard");
       }, 2000);
     } catch (error: any) {
       Swal.fire({
@@ -58,14 +61,6 @@ const LoginPage = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleGoogle = () => {
-    Swal.fire({
-      icon: "info",
-      title: "Google Login",
-      text: "Google login is under development.",
-    });
   };
 
   return (
@@ -90,7 +85,7 @@ const LoginPage = () => {
                 type="email"
                 name="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setLocalEmail(e.target.value)}
                 className="w-full px-4 py-2 placeholder-gray-500 text-gray-900 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-blue-500"
                 placeholder="Enter Email"
               />
@@ -123,10 +118,7 @@ const LoginPage = () => {
               </div>
               <p className="text-center text-xs">--OR--</p>
               <div className="flex justify-center items-center">
-                <button
-                  onClick={handleGoogle}
-                  className="btn btn-outline btn-wide"
-                >
+                <button className="btn btn-outline btn-wide">
                   <FaGoogle /> Google Login
                 </button>
               </div>

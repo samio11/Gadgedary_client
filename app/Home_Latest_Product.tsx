@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
 
 interface Product {
   id: number;
@@ -21,6 +23,7 @@ interface Product {
 
 const Home_Products = () => {
   const [latestProducts, setLatestProducts] = useState<Product[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -41,7 +44,27 @@ const Home_Products = () => {
     fetchProducts();
   }, []);
 
-  console.log(latestProducts);
+  const handleProduct = (product) => {
+    Swal.fire({
+      position: "top-end",
+      title: "Going To Cart",
+      showConfirmButton: false,
+      timer: 2000,
+      imageUrl:
+        "https://images.squarespace-cdn.com/content/v1/54bc6cffe4b0fee4b02bd3c5/1520533858653-EL1OZQBC1PR49D66FES8/Highway-5-animation-studio-sophy.gif", // Replace with the path to your custom icon
+      imageWidth: 200, // Optional: Set the width of the image
+      imageHeight: 200, // Optional: Set the height of the image
+      imageAlt: "Custom Icon", // Optional: Alt text for the image
+    });
+
+    // Store product data in localStorage
+    localStorage.setItem("selectedProduct", JSON.stringify(product));
+
+    // Navigate to /add_to_cart page
+    setTimeout(() => {
+      router.push("/add_to_cart");
+    }, 2000);
+  };
 
   return (
     <div className="mt-12 max-w-screen-xl mx-auto">
@@ -83,7 +106,10 @@ const Home_Products = () => {
                   </span>
                 ))}
               </div>
-              <button className="btn btn-outline btn-wide">
+              <button
+                onClick={() => handleProduct(product)}
+                className="btn btn-outline btn-wide"
+              >
                 <FaShoppingCart /> Add to Cart
               </button>
             </div>
