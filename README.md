@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Gadgedary Client
 
-## Getting Started
+![f200eb6203aba005f6bb8c46ac157274](https://github.com/user-attachments/assets/0255cdaf-8748-4359-af66-e7905c86bac6)
 
-First, run the development server:
+Welcome to the **Gadgedary Client**, the frontend of the Gadgedary platform—a seamless and interactive tech-selling website designed to deliver a premium shopping experience. Built with **Next.js** and **TypeScript**, this client integrates advanced features for product browsing, payment management, and customer account operations.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🌟 Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Customer-Centric Features:
+- **Account Management**: Create, edit, and manage user accounts.
+- **Browse Products**: Search, filter, and sort products easily.
+- **Shopping Cart**: Add/remove products, update quantities, and proceed to checkout.
+- **Wishlist**: Save favorite products for future reference.
+- **Order Tracking**: Track orders in real-time.
+- **Notifications**: Get updates on offers, order statuses, and recommendations.
+- **Product Reviews**: Add, edit, and view reviews for better decision-making.
+- **Multi-Factor Authentication**: Secure login for all users.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Tech Highlights:
+- **PDF Generation**: Download payment history or invoices as a PDF with ease.
+- **Responsive Design**: A modern, mobile-friendly user interface.
+- **SweetAlert2 Integration**: Interactive and stylish notifications.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🚀 Tech Stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Frontend:
+- **Framework**: [Next.js](https://nextjs.org/) (15.1.5) with TypeScript.
+- **Styling**: TailwindCSS, DaisyUI, Bootstrap, Flowbite, and AOS for animations.
+- **State Management**: Context API.
+- **API Communication**: Axios for seamless backend integration.
+- **PDF Generation**: jsPDF and jsPDF-Autotable for custom invoice and report creation.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Key Packages:
+```json
+{
+  "@emailjs/browser": "4.4.1",
+  "@headlessui/react": "2.2.0",
+  "aos": "2.3.4",
+  "axios": "1.7.9",
+  "bootstrap": "5.3.3",
+  "daisyui": "4.12.23",
+  "flowbite": "2.5.2",
+  "js-cookie": "3.0.5",
+  "jspdf": "2.5.2",
+  "jspdf-autotable": "3.8.4",
+  "sweetalert2": "11.15.10"
+}
