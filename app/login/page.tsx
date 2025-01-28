@@ -1,6 +1,6 @@
 "use client";
 
-import { FaGoogle } from "react-icons/fa";
+import { FaHome } from "react-icons/fa";
 import Link from "next/link";
 import Lottie from "lottie-react";
 import Swal from "sweetalert2";
@@ -63,6 +63,21 @@ const LoginPage = () => {
     }
   };
 
+  // Handle Back to Home
+  const handleBackToHome = () => {
+    Swal.fire({
+      title: "Redirecting",
+      text: "Going back to the homepage...",
+      icon: "info",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+
+    setTimeout(() => {
+      router.push("/");
+    }, 1500);
+  };
+
   return (
     <div className="w-auto md:w-screen h-auto md:h-screen flex justify-center items-center">
       <div className="w-[80%] h-auto shadow-xl rounded-lg flex flex-col md:flex-row justify-center items-center p-5">
@@ -118,8 +133,12 @@ const LoginPage = () => {
               </div>
               <p className="text-center text-xs">--OR--</p>
               <div className="flex justify-center items-center">
-                <button className="btn btn-outline btn-wide">
-                  <FaGoogle /> Google Login
+                <button
+                  type="button"
+                  onClick={handleBackToHome}
+                  className="btn btn-outline btn-wide"
+                >
+                  <FaHome className="mr-2" /> Back to Home
                 </button>
               </div>
             </form>

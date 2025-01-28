@@ -82,7 +82,7 @@ const Home_Apply_Cupon = () => {
             <p>Loading your special coupon...</p>
           ) : (
             <div className="flex flex-col items-center mt-6">
-              <input
+              {/* <input
                 type="text"
                 className="w-80 p-3 rounded-lg bg-gray-100 text-black border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500"
                 placeholder="Enter your coupon code"
@@ -94,7 +94,7 @@ const Home_Apply_Cupon = () => {
                 className="mt-4 w-full md:w-auto bg-teal-500 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-teal-600 transition-all"
               >
                 Apply Coupon
-              </button>
+              </button> */}
             </div>
           )}
           {isCouponApplied && (

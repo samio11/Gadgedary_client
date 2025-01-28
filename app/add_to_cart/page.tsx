@@ -2,14 +2,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { FaPlus, FaMinus, FaStar, FaArrowLeft } from "react-icons/fa"; // Icons for quantity control and back button
+import { FaPlus, FaMinus, FaStar, FaArrowLeft } from "react-icons/fa";
 import { useAuth } from "../context/AuthContext";
+import { useRouter } from "next/navigation";
 
 const AddToCart = () => {
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1); // Default quantity set to 1
   const [loading, setLoading] = useState(true); // To handle loading state
-  const { email } = useAuth();
+  const { email } = useAuth(); // Auth context
+  const router = useRouter();
 
   useEffect(() => {
     const storedProduct = localStorage.getItem("selectedProduct");
@@ -21,10 +23,25 @@ const AddToCart = () => {
   }, []);
 
   const handleAddToCart = async () => {
+    // Check if the user is logged in
+    if (!email) {
+      Swal.fire({
+        icon: "warning",
+        title: "Login Required",
+        text: "You need to log in to add products to your cart.",
+        confirmButtonText: "Go to Login",
+        customClass: {
+          confirmButton: "bg-blue-500 text-white px-4 py-2 rounded",
+        },
+      }).then(() => {
+        router.push("/login"); // Redirect to the login page
+      });
+      return;
+    }
+
     try {
-      const customerEmail = email; // Replace with actual user email if available
       const data = {
-        customer_email: customerEmail,
+        customer_email: email,
         product_id: product.id,
         name: product.name,
         category: product.category,
@@ -37,7 +54,6 @@ const AddToCart = () => {
         offer_available: product.offer_available,
         quantity: quantity, // Send the quantity selected by the user
       };
-      console.log(data);
 
       const response = await axios.post("http://localhost:4000/cart/add", data);
 
