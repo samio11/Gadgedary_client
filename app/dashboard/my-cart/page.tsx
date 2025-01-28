@@ -167,27 +167,57 @@ export default function MyCartPage() {
   };
 
   // Handle payment button click (placeholder logic)
-  const handlePayment = () => {
-    Swal.fire({
-      title: "Processing Payment",
-      text: "This feature is coming soon!",
-      icon: "info",
-      confirmButtonText: "OK",
-      customClass: {
-        confirmButton: "bg-blue-500 text-white px-4 py-2 rounded",
-      },
-    });
-  };
+  // Handle payment button click
+  const handlePayment = async () => {
+    try {
+      // Step 1: Create Payment
+      const createPaymentResponse = await axios.post(
+        "http://localhost:4000/payment/create",
+        {
+          customerEmail: email,
+          cartItems: cartItems,
+          coupon: discountedPrice ? discountedPrice : undefined, // Include coupon if applied
+        }
+      );
 
-  if (!cartItems || cartItems.length === 0) {
-    return (
-      <div className="flex flex-col items-center justify-center h-full bg-gray-100">
-        <h2 className="text-2xl font-bold text-gray-700">
-          Your cart is empty!
-        </h2>
-      </div>
-    );
-  }
+      const { clientSecret } = createPaymentResponse.data;
+
+      // Step 2: Confirm Payment
+      const confirmPaymentResponse = await axios.post(
+        "http://localhost:4000/payment/confirm"
+      );
+      console.log(confirmPaymentResponse);
+      // Step 3: Check confirmation status
+      if (confirmPaymentResponse.data) {
+        Swal.fire({
+          title: "Payment Successful!",
+          text: "Your payment was processed successfully.",
+          icon: "success",
+          confirmButtonText: "OK",
+          customClass: {
+            confirmButton: "bg-green-500 text-white px-4 py-2 rounded",
+          },
+        });
+
+        // Step 4: Navigate to /dashboard/payment
+        window.location.href = "/dashboard/payment";
+      } else {
+        throw new Error("Payment confirmation failed.");
+      }
+    } catch (error) {
+      console.error("Error during payment process:", error);
+
+      Swal.fire({
+        title: "Payment Failed!",
+        text: "Something went wrong during the payment process. Please try again.",
+        icon: "error",
+        confirmButtonText: "OK",
+        customClass: {
+          confirmButton: "bg-red-500 text-white px-4 py-2 rounded",
+        },
+      });
+    }
+  };
 
   return (
     <div className="flex flex-col items-center bg-gray-100 min-h-screen p-8">
